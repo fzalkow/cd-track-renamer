@@ -45,3 +45,7 @@ In case of a multi-CD album:
     │   └── track_02.wav
     |   ⋮
     ⋮
+
+## Acknowledgement
+
+This script is based on the [MusicBrainz API](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2). Thanks to the MusicBrainz community!
