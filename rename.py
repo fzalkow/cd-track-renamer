@@ -6,6 +6,10 @@ from glob import glob
 import shutil
 
 
+def escape(s):
+    return s.replace(':', '').replace('/', '-')
+
+
 def get_albums(artist, album):
     url = 'http://musicbrainz.org/ws/2/release/?query=artist:{artist}%20AND%20release:{album}&fmt=json'.format(
         artist=urllib.parse.quote(artist), album=urllib.parse.quote(album))
@@ -27,9 +31,9 @@ def get_tracks(release_id):
         cur_titles = []
         for t, track in enumerate(media['tracks']):
             if num_cds == 1:
-                cur_title = '{:02d} {}'.format(t+1, track['title'].replace(':', ''))
+                cur_title = '{:02d} {}'.format(t+1, escape(track['title']))
             else:
-                cur_title = '{:d}-{:02d} {}'.format(i+1, t+1, track['title'].replace(':', ''))
+                cur_title = '{:d}-{:02d} {}'.format(i+1, t+1, escape(track['title']))
             cur_titles.append(cur_title)
         titles.append(cur_titles)
 
