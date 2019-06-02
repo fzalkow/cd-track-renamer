@@ -67,9 +67,11 @@ if __name__ == '__main__':
     candidates = get_albums(artist, album)
 
     for i, candidate in enumerate(candidates):
+        country = candidate['country'] if 'country' in candidate else 'Unknown country'
+
         print('{n:2d} - {artist}: {title} ({country}, {ntracks} tracks)'.format(n=i+1, title=candidate['title'],
               artist=' / '.join([a['artist']['name'] for a in candidate['artist-credit']]),
-              ntracks=candidate['track-count'], country=candidate['country']))
+              ntracks=candidate['track-count'], country=country))
 
     # user chooses among candidate releases
     candidate_no = input('Which album number do you want to use? ')
