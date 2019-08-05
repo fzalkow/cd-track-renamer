@@ -7,7 +7,14 @@ import shutil
 
 
 def escape(s):
-    return s.replace(':', '').replace('/', '-')
+    replace_chars = [(':', ''),
+                     ('/', '-'),
+                     ('"', ''),
+                     ('\'', '')
+                     ]
+    for oldchar, newchar in replace_chars:
+        s = s.replace(oldchar, newchar)
+    return s
 
 
 def get_albums(artist, album):
