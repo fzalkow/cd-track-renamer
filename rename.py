@@ -73,6 +73,7 @@ if __name__ == '__main__':
 
     # print candidate releases
     candidates = get_albums(artist, album)
+    candidates = sorted(candidates, key=lambda d: (d['score'], d['id']), reverse=True)
 
     for i, candidate in enumerate(candidates):
         country = candidate['country'] if 'country' in candidate else 'Unknown country'
