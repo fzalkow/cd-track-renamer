@@ -48,8 +48,8 @@ def get_tracks(release_id):
     return titles
 
 
-def eventually_rename_file(old_file, new_name, mode):
-    new_fn = os.path.join(directory, new_name + os.path.splitext(old_file)[1])
+def eventually_rename_file(old_file, new_name, mode, new_directory):
+    new_fn = os.path.join(new_directory, new_name + os.path.splitext(old_file)[1])
     print('"{}" -> "{}"'.format(os.path.relpath(old_file, directory), os.path.relpath(new_fn, directory)))
 
     if mode == 'move':
@@ -89,6 +89,8 @@ if __name__ == '__main__':
     candidate_no = input('Which album number do you want to use? ')
     candidate_idx = (int(candidate_no) - 1)
     release_id = candidates[candidate_idx]['id']
+    artist = ' - '.join([a['artist']['name'] for a in candidates[candidate_idx]['artist-credit']])
+    album = candidates[candidate_idx]['title']
 
     # get tracks from chosen candidate release
     track_names = get_tracks(release_id)
@@ -99,12 +101,16 @@ if __name__ == '__main__':
     directory_subdirs = [f for f in directory_content if os.path.isdir(f)]
     directory_subdir_files = [sorted(glob(os.path.join(d, '*'))) for d in directory_subdirs]
 
+    new_directory = os.path.join(directory, artist, album)
+    if mode == 'move':
+        os.makedirs(new_directory, exist_ok=True)
+
     # single cd
     if len(track_names) == 1:
         assert len(track_names[0]) == len(directory_files)
 
         for fn, name in zip(directory_files, track_names[0]):
-            eventually_rename_file(fn, name, mode)
+            eventually_rename_file(fn, name, mode, new_directory)
 
     # multiple cds
     else:
@@ -113,4 +119,4 @@ if __name__ == '__main__':
 
         for cur_names, cur_files in zip(track_names, directory_subdir_files):
             for fn, name in zip(cur_files, cur_names):
-                eventually_rename_file(fn, name, mode)
+                eventually_rename_file(fn, name, mode, new_directory)
