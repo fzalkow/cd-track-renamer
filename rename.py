@@ -69,7 +69,7 @@ if __name__ == '__main__':
     album = args.album
     directory = args.directory
     mode = args.mode
-    assert mode in ['test', 'move']
+    assert mode in ['test', 'move'], mode
 
     # print candidate releases
     candidates = get_albums(artist, album)
@@ -107,15 +107,16 @@ if __name__ == '__main__':
 
     # single cd
     if len(track_names) == 1:
-        assert len(track_names[0]) == len(directory_files)
+        assert len(track_names[0]) == len(directory_files), (len(track_names[0]), len(directory_files))
 
         for fn, name in zip(directory_files, track_names[0]):
             eventually_rename_file(fn, name, mode, new_directory)
 
     # multiple cds
     else:
-        assert len(track_names) == len(directory_subdirs)
-        assert all(len(t) == len(d) for t, d in zip(track_names, directory_subdir_files))
+        assert len(track_names) == len(directory_subdirs), (len(track_names), len(directory_subdirs))
+        assert all(len(t) == len(d) for t, d in zip(track_names, directory_subdir_files)), \
+            [(len(t), len(d)) for t, d in zip(track_names, directory_subdir_files)]
 
         for cur_names, cur_files in zip(track_names, directory_subdir_files):
             for fn, name in zip(cur_files, cur_names):
