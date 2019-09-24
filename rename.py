@@ -78,12 +78,20 @@ if __name__ == '__main__':
     for i, candidate in enumerate(candidates):
         country = candidate['country'] if 'country' in candidate else 'Unknown country'
         num_cds = len(candidate['media'])
-        cd_s = 's' if num_cds > 1 else ''
 
-        print('{n:2d} - {artist}: {title} ({country}, {ncds} CD{cd_s}, {ntracks} tracks)'.format(
+        if num_cds > 1:
+            cd_s = 's'
+            tracks = '+'.join([str(cd['track-count']) for cd in sorted(candidate['media'],
+                                                                       key=lambda cd: cd['disc-count'])])
+            tracks = ' [%s]' % tracks
+        else:
+            cd_s = ''
+            tracks = ''
+
+        print('{n:2d} - {artist}: {title} ({country}, {ncds} CD{cd_s}, {ntracks}{ntracks_split} tracks)'.format(
               n=i+1, title=candidate['title'],
               artist=' / '.join([a['artist']['name'] for a in candidate['artist-credit']]),
-              ntracks=candidate['track-count'], country=country, ncds=num_cds, cd_s=cd_s))
+              ntracks=candidate['track-count'], country=country, ncds=num_cds, cd_s=cd_s, ntracks_split=tracks))
 
     # user chooses among candidate releases
     candidate_no = input('Which album number do you want to use? ')
