@@ -101,7 +101,7 @@ if __name__ == '__main__':
     directory_subdirs = [f for f in directory_content if os.path.isdir(f)]
     directory_subdir_files = [sorted(glob(os.path.join(d, '*'))) for d in directory_subdirs]
 
-    new_directory = os.path.join(directory, artist, album)
+    new_directory = os.path.join(directory, escape(artist), escape(album))
     if mode == 'move':
         os.makedirs(new_directory, exist_ok=True)
 
