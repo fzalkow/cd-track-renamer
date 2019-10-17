@@ -11,7 +11,8 @@ def escape(s):
                      ('/', '-'),
                      ('"', ''),
                      ('\'', ''),
-                     ('?', '')
+                     ('?', ''),
+                     ('.', '-')
                      ]
     for oldchar, newchar in replace_chars:
         s = s.replace(oldchar, newchar)
@@ -36,6 +37,8 @@ def get_tracks(release_id):
     num_cds = len(data['media'])
 
     for i, media in enumerate(data['media']):
+        if media['format'] != 'CD':
+            continue
         cur_titles = []
         for t, track in enumerate(media['tracks']):
             if num_cds == 1:
