@@ -2,7 +2,7 @@ import argparse
 import urllib.parse
 import requests
 import os
-from glob import glob
+import glob
 import shutil
 
 
@@ -109,12 +109,12 @@ if __name__ == '__main__':
     track_names = get_tracks(release_id)
 
     # rename files / print potential renaming
-    directory_content = sorted(glob(os.path.join(directory, '*')))
+    directory_content = sorted(glob.glob(os.path.join(glob.escape(directory), '*')))
     directory_files = [f for f in directory_content if os.path.isfile(f)]
     directory_subdirs = [f for f in directory_content if os.path.isdir(f)]
-    directory_subdir_files = [sorted(glob(os.path.join(d, '*'))) for d in directory_subdirs]
+    directory_subdir_files = [sorted(glob.glob(os.path.join(glob.escape(d), '*'))) for d in directory_subdirs]
 
-    new_directory = os.path.join(directory, escape(artist), escape(album))
+    new_directory = os.path.join(glob.escape(directory), escape(artist), escape(album))
     if mode == 'move':
         os.makedirs(new_directory, exist_ok=True)
 
