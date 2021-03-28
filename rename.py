@@ -14,7 +14,8 @@ def escape(s):
                      ('”', ''),
                      ('\'', ''),
                      ('?', ''),
-                     ('.', '-')
+                     ('.', '-'),
+                     ('*', '-')
                      ]
     for oldchar, newchar in replace_chars:
         s = s.replace(oldchar, newchar)
