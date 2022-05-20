@@ -40,7 +40,7 @@ def get_tracks(release_id):
     num_cds = len(data['media'])
 
     for i, media in enumerate(data['media']):
-        if media['format'] != 'CD':
+        if media['format'] != 'CD' and not (num_cds == 1 and media['format'] == 'Digital Media'):
             continue
         cur_titles = []
         for t, track in enumerate(media['tracks']):
